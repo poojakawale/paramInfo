@@ -1,0 +1,132 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <h4 class="app-heading">Employee CRUD</h4>
+        <div class="d-flex">
+            <button (click)="clickAddEmployee()" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add New Employee
+            </button>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container">
+    <input class="mt-3" type="text" [(ngModel)]="fullName" placeholder="Serach by name"/>
+
+    <table class="table mt-3  table-striped table-sm  table-responsive table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">FullName</th>
+                <th scope="col">Position</th>
+                <th scope="col">Company</th>
+                <th scope="col">Address</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Email</th>
+                <th scope="col">Dob</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of pagedItems | filterData:fullName; let i=index" >
+                <td>{{row.id}}</td>
+                <td>{{row.fullName}}</td>
+                <td>{{row.position}}</td>
+                <td>{{row.company}}</td>
+                <td>{{row.address}}</td>
+                <td>{{row.mobile}}</td>
+                <td>{{row.gender | gender}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.dob}}</td>
+                <td>
+                    <div class = "btn-group">
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="clickEditEmployee();onEdit(row)">Edit</button>
+                        <button class="btn btn-outline-secondary mx-3" (click)="clickEditEmployee();deleteEmployee(row)">Delete</button>    
+                    </div>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="pager.currentPage === 1 ? 'pagination__item pagination__item--disabled' : 'pagination__item'">
+          <a (click)="setPage(1)">First</a>
+        </li>
+        <li [ngClass]="pager.currentPage === 1 ? 'pagination__item pagination__item--disabled' : 'pagination__item'">
+            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+    
+        <!-- pages -->
+        <li *ngFor="let page of pager.pages" [ngClass]="pager.currentPage === page ? 'pagination__item pagination__item--active' : 'pagination__item'">
+            <a (click)="setPage(page)">{{page}}</a>
+        </li>
+    
+        <li [ngClass]="pager.currentPage === pager.totalPages ? 'pagination__item pagination__item--disabled' : 'pagination__item'">
+            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="pager.currentPage === pager.totalPages ? 'pagination__item pagination__item--disabled' : 'pagination__item'">
+            <a (click)="setPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
+
+</div>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Employee Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formValue">
+                <div class="mb-3">
+                    <label for="inputFullName" class="form-label">Full Name</label>
+                    <input type="text" formControlName="fullName" class="form-control" id="inputFullName" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputPosition" class="form-label">Position</label>
+                    <input type="text" formControlName="position" class="form-control" id="inputPosition" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputCompany" class="form-label">Company</label>
+                    <input type="text"  formControlName="company" class="form-control" id="inputCompany" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputAddress" class="form-label">Address</label>
+                    <input type="text"  formControlName="address" class="form-control" id="inputAddress" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputMobile" class="form-label">Mobile</label>
+                    <input type="text"  formControlName="mobile" class="form-control" id="inputMobile" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputGender" class="form-label">Gender</label>
+                    <input type="text"  formControlName="gender" class="form-control" id="inputGender" required>
+                  </div>
+                
+                <div class="mb-3">
+                    <label for="inputEmail1" class="form-label">Email address</label>
+                    <input type="email"  formControlName="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputDob" class="form-label">DOB</label>
+                    <input type="text"  formControlName="dob" class="form-control" id="inputDob" required>
+                  </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" *ngIf="showAdd" class="btn btn-primary" (click)="postEmployeeDetails()">Add</button>
+          <button type="button" *ngIf="showUpdate" class="btn btn-primary" (click)="updateEmployeeDetails()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>

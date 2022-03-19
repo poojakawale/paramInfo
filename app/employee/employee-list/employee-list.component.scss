@@ -1,0 +1,58 @@
+.app-heading {
+    color:black;
+}
+
+.items {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  
+  .items__item {
+    margin: 1rem 0;
+    border: 1px solid lightgray;
+  }
+  
+  .items__item--active {
+    background: lightgray;
+  }
+  
+  .items__item:not(.items__item--active) {
+    cursor: pointer;
+  }
+  
+  .items__item a {
+    padding: 0.5rem;
+    display: block;
+  }
+  
+  
+  .pagination {
+    display: flex;
+    max-width: 960px;
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+  }
+  
+  .pagination__item:not(.pagination__item--disabled) {
+    color: lightgray;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .pagination__item a {
+    padding: 0.5rem 1rem;
+    border: 1px solid lightgray;
+    margin-right: 5px;
+  }
+  
+  .pagination__item--active a {
+    color: #f0f0f0;
+    background: gray;
+    border: 1px solid lightgray;
+  }
+
+  .invalid{
+    color:#f44336;
+}
